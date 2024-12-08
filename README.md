@@ -4,7 +4,7 @@ NOAA APT encoder
 
 **Added CMake Build**
 ```
-cd apt-encoder
+cd apt-encoder # this dir, not apt-encoder /apt-encoder. 
 mkdir build && cd build
 cmake ..
 make
