@@ -4,6 +4,12 @@
 #include "audioset.h"
 #include "wavwrite.h"
 
+FILE *logfile = NULL;
+int AudioDevice = 0;
+uint8_t AptImageSet = 0;
+int16_t audio_buffer[WF_SAMPLE_RATE/WF_BUFFER_DIV];
+
+
 AptTelemetry TelemetryA;
 AptTelemetry TelemetryB;
 
@@ -67,16 +73,15 @@ void *SoundThread(void *vargp) {
       }
     }
     if(!aptoptions.isfile) {     
-      if(aptoptions.usestdout) { // Use STDOUT
-        for(i=0; i<WF_SAMPLE_RATE/WF_BUFFER_DIV; i++) {
-          fwrite_int(audio_buffer[i],2,stdout); // aplay -f S16_LE -r 24000
+        if(aptoptions.usestdout) { // Use STDOUT
+            for(i=0; i<WF_SAMPLE_RATE/WF_BUFFER_DIV; i++) {
+                fwrite_int(audio_buffer[i],2,stdout);
+            }
+        } 
+        else { // Use ALSA device
+            AlsaAudioDevice *adev = (AlsaAudioDevice*)(intptr_t)AudioDevice;
+            snd_pcm_writei(adev->handle, audio_buffer, WF_SAMPLE_RATE/WF_BUFFER_DIV);
         }
-      } 
-      else { // Use OSS device
-        if(write(AudioDevice, audio_buffer, sizeof(audio_buffer)) != WF_SAMPLE_RATE/WF_BUFFER_DIV*WF_SAMPLEBITS/8) {
-          perror("Wrote wrong number of bytes");
-        }
-      }
     }
     else { // Writing WAV file
       for(i=0; i<WF_SAMPLE_RATE/WF_BUFFER_DIV; i++) {
@@ -453,7 +458,7 @@ void Usage(char *p_name) {
   printf("Usage: %s (-i <file> [-s <file>] | -I) [(-d <device> | -O) -m <mode> -lcrM]\n",p_name);
   printf("  -i <filename> Input TGA image (909px width, 24bit RGB)\n");
   printf("  -s <filename> Second input TGA image (B channel, mode ignored)\n");
-  printf("  -d <device>   OSS audio device (default /dev/dsp) or file\n");
+  printf("  -d <device>   ALSA audio device (default: \"default\", or like \"hw:0,0\")\n");
   printf("  -m <mode>     Channel B data mode (R,G,B,N,Y,C)\n");
   printf("  -I            Read image data from stdin\n");
   printf("  -O            Write audio data to stdout\n");

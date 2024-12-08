@@ -24,6 +24,7 @@
 #define APT_FRAME_SIZE 128
 #define APT_MARKER_SIZE 120
 
+
 typedef struct {
   uint8_t Wedge1;
   uint8_t Wedge2;
@@ -84,7 +85,7 @@ typedef struct {
   uint8_t Value[APT_LINE_SIZE];
 }AptLineAr;
 // Single or multi image set
-uint8_t AptImageSet;
+extern uint8_t AptImageSet;
 //Generate A channel sync pulses
 uint8_t AptSyncA(uint8_t word);
 //Generate B channel sync pulses
