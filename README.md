@@ -1,6 +1,43 @@
 NOAA APT encoder
 ==================
 
+**Added CMake Build**
+```
+cd apt-encoder
+mkdir build && cd build
+cmake ..
+make
+sudo make install
+```
+
+**Change Audio Maganer OSS to ALSA** 
+
+```
+./apt_encoder
+NOAA automatic picture transmission (APT) encoder
+Usage: ./apt_encoder (-i <file> [-s <file>] | -I) [(-d <device> | -O) -m <mode> -lcrM]
+  -i <filename> Input TGA image (909px width, 24bit RGB)
+  -s <filename> Second input TGA image (B channel, mode ignored)
+  -d <device>   ALSA audio device (default: "default", or like "hw:0,0")
+  -m <mode>     Channel B data mode (R,G,B,N,Y,C)
+  -I            Read image data from stdin
+  -O            Write audio data to stdout
+  -M            Multi image reading from stdin
+  -l            Enable infinite image loop
+  -c            Enable user console
+  -r            Device is regular file (write WAV audio file)
+  -h            Show this help
+                Build: 23:19:47 Dec  8 2024, GCC 13.2.0
+```
+
+
+**Organize global variables and support Ubuntu 24.04**
+
+
+
+
+-_-_-_-_**ORIGINAL ARTICLES**-_-_-_-_-
+
 Load TGA image (24bit, RGB) and encode it to APT (Automatic Picture Transmission) signal.
 
 Information and description:
