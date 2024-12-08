@@ -1,6 +1,7 @@
 NOAA APT encoder
 ==================
 
+
 **Added CMake Build**
 ```
 cd apt-encoder
@@ -33,7 +34,7 @@ Usage: ./apt_encoder (-i <file> [-s <file>] | -I) [(-d <device> | -O) -m <mode> 
 
 **Organize global variables and support Ubuntu 24.04**
 
-
+*TODO:build shared lib and gnuradio module.
 
 
 -_-_-_-_**ORIGINAL ARTICLES**-_-_-_-_-
